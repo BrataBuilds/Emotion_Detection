@@ -46,9 +46,26 @@ Before running the project, ensure you have:
 ```
 
 ## Installation
-Download the dataset from [here](https://www.kaggle.com/datasets/msambare/fer2013) and extract the files into the root folder.
+1. Download the dataset from [here](https://www.kaggle.com/datasets/msambare/fer2013) and extract the files into the root folder.
+2. Clone the repo:
+```bash
+git clone https://github.com/BrataBuilds/Emotion_Detection.git
+```
+3. Create a virtual environment (using uv preferred)
+```bash
+pip install uv
+uv venv -p 3.11
+```
+4. Install required packages:
+```bash
+pip install -r requirements.txt
+```
+1. Set-up Modal:
 
-Clone the repo
+Create an account on [modal.com](https://modal.com/docs/guide) and run the following command.
+```bash
+python -m modal setup
+```
 ### Training the Model
 
 1. Local Training:
@@ -56,7 +73,7 @@ Clone the repo
 python train.py
 ```
 
-2. Modal Training (with GPU acceleration):
+1. Modal Training (with GPU acceleration):
 ```bash
 modal run train.py
 ```

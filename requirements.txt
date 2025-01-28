@@ -2,4 +2,5 @@ numpy
 tensorflow
 opencv
 pillow
+modal
 matplotlib
