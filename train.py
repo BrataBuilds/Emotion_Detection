@@ -19,14 +19,17 @@ TODO: Make the model, metrics data downloadable locally automatically.
 """
 
 import modal
+import modal.runner
 import modal.running_app
 app = modal.App("Emotion-Recognition")
 img = (modal.Image.debian_slim().pip_install("torch",
     "pillow",
     "numpy",
-    "torchvision")
-    .add_local_dir("data/test",remote_path="/root/test")
-    .add_local_dir("data/train",remote_path="/root/train"))
+    "torchvision",
+    "kagglehub")
+    # .add_local_dir("data/test",remote_path="/root/test")
+    # .add_local_dir("data/train",remote_path="/root/train")
+    )
 @app.function(image=img,gpu='t4',timeout=3600)
 # Downloading the dataset on modal's servers cause uploading is slow.
 
@@ -233,15 +236,12 @@ def cnn():
         return model, metric_history
 
     # Main execution
-    model = EmotionCNN()
-    train_loader, test_loader = create_data_loaders(
-        train_dir="/root/.cache/kagglehub/datasets/msambare/fer2013/versions/1/train",
-        test_dir="/root/.cache/kagglehub/datasets/msambare/fer2013/versions/1/test",
-        batch_size=500
-    )
-    trained_model = train_model(model, train_loader, test_loader)
 
-@app.local_entrypoint()
-def main_local():
     if __name__ == "__main__":
-        modal.runner.main(app)
+        model = EmotionCNN().remote()
+        train_loader, test_loader = create_data_loaders(
+            train_dir="/root/.cache/kagglehub/datasets/msambare/fer2013/versions/1/train",
+            test_dir="/root/.cache/kagglehub/datasets/msambare/fer2013/versions/1/test",
+            batch_size=500
+        ).remote()
+        trained_model = train_model(model, train_loader, test_loader).remote()
