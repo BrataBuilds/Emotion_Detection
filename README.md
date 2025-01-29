@@ -79,15 +79,6 @@ Before running the project, ensure you have:
 - Sufficient disk space for the dataset
 - Git (for version control)
 
-
-## Project Structure
-
-```
-├── train_local.py
-|──train_on_modal
-└── README.md
-```
-
 ## Installation
 1. Download the dataset from [here](https://www.kaggle.com/datasets/msambare/fer2013) and extract the files into the root folder.
 2. Clone the repo:
